@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/RobinCK/gulp-css-rebase/issues"
   },
-  "homepage": "https://github.com/RobinCK/gulp-css-rebase#readme"
+  "homepage": "https://github.com/RobinCK/gulp-css-rebase#readme",
   "keywords": [
     "url-rebase",
     "gulp",
