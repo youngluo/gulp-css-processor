@@ -6,46 +6,77 @@ var url = require('rework-plugin-url');
 var through = require('through2');
 var mkpath = require('mkpath');
 var fs = require('fs');
+var merge = require('merge');
+var md5 = require('md5');
+var fileExists = require('file-exists');
 
-module.exports = function(filePath, publicPrefix){
-  return through.obj(function(file, enc, cb) {
-    if (file.isNull()) {
-      return;
-    }
+module.exports = function (opt) {
+    var options = merge({
+        output: null,
+        exclude: [],
+        overwrite: false
+    }, opt);
 
-    if (file.isStream()){
-      return this.emit('error', PluginError('gulp-css-rebase',  'Streaming not supported'));
-    }
-
-    var adjusted = adjust(file);
-    file.contents = new Buffer(adjusted);
-
-    cb(null, file);
-  });
-
-  function adjust(file){
-    var css = file.contents.toString();
-
-    return rework(css)
-      .use(url(function(url) {
-        if(!/^(data|\/|\w+:\/\/)/.test(url)){
-          var assetPath = path.join(path.dirname(file.path), url);
-          var assetFolder = path.basename(path.dirname(assetPath))
-          var newPath = path.join(filePath, assetFolder, path.basename(assetPath)).replace(/[\#|\?].*$/, '');
-
-          mkpath(path.dirname(newPath), function(err) {
-            if (err) {
-              throw err;
-            }
-
-            fs.createReadStream(assetPath.replace(/[\#|\?].*$/, '')).pipe(fs.createWriteStream(newPath));
-          });
-
-          url = path.normalize(path.join(publicPrefix, assetFolder, path.basename(assetPath))).replace(/\\/g, '/');
+    return through.obj(function (file, enc, cb) {
+        if (file.isNull()) {
+            return;
         }
 
-        return url;
-      }))
-      .toString();
-  }
+        if (file.isStream()) {
+            return this.emit('error', PluginError('gulp-css-rebase', 'Streaming not supported'));
+        }
+
+        var adjusted = adjust(file);
+        file.contents = new Buffer(adjusted);
+
+        cb(null, file);
+    });
+
+    function adjust(file) {
+        var css = file.contents.toString();
+
+        return rework(css)
+            .use(url(function (url) {
+                if (!/^(data|\/|\w+:\/\/)/.test(url)) {
+                    var assetPath = path.join(path.dirname(file.path), url);
+                    var assetFolder = md5(path.relative(process.cwd(), path.dirname(assetPath)));
+                    var IsExclude = false;
+
+                    for (var index in options.exclude) {
+                        if (options.exclude[index] === assetPath.substr(0, options.exclude[index].length)) {
+                            IsExclude = true;
+                            break;
+                        }
+                    }
+
+                    var newPath = !IsExclude
+                        ? path.normalize(path.join(options.output, assetFolder, path.basename(assetPath)))
+                        : path.normalize(assetPath)
+                    ;
+
+                    if (
+                        (!IsExclude && !fileExists(newPath))
+                            ||
+                        (!IsExclude && options.overwrite)
+                    ) {
+                        mkpath(path.dirname(newPath), function (err) {
+                            if (err) {
+                                throw err;
+                            }
+
+                            fs
+                                .createReadStream(assetPath.replace(/[\#|\?].*$/, ''))
+                                .pipe(fs.createWriteStream(newPath.replace(/[\#|\?].*$/, '')))
+                            ;
+                        });
+
+                    }
+
+                    url = path.relative(options.output, newPath);
+                }
+
+                return url;
+            }))
+            .toString();
+    }
 };
