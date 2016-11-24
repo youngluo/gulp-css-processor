@@ -74,7 +74,6 @@ module.exports = function (opt) {
                     }
 
                     url = path.relative(options.output_css, newPath);
-                    console.log(url);
                 }
 
                 return url;
