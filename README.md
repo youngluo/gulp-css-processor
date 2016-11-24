@@ -15,11 +15,13 @@ const gulp = require('gulp');
 const rebase = require('gulp-css-rebase');
 
 var outputPath = 'dest';
+var outputAssets = 'static';
 
 gulp.task('default', () =>
 	gulp.src('src/*.css')
 		.pipe(rebase({
-		    output: outputPath,
+		    output_css: outputPath,
+		    output_assets: outputAssets,
             exclude: [
                 'path/to/web/dir'
             ],
@@ -30,6 +32,7 @@ gulp.task('default', () =>
 ```
 
 ### Options
-- `output` - The target directory for the processed CSS. Paths are rewritten relatively to that directory.
+- `output_css` - The target directory for the processed CSS. Paths are rewritten relatively to that directory.
+- `output_assets` - The target directory for CSS assets.
 - `exclude` - Paths are rewritten relatively to original path.
 - `overwrite` - Overwrite files

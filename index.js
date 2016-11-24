@@ -12,7 +12,8 @@ var fileExists = require('file-exists');
 
 module.exports = function (opt) {
     var options = merge({
-        output: null,
+        output_assets: null,
+        output_css: null,
         exclude: [],
         overwrite: false
     }, opt);
@@ -50,13 +51,13 @@ module.exports = function (opt) {
                     }
 
                     var newPath = !IsExclude
-                        ? path.normalize(path.join(options.output, assetFolder, path.basename(assetPath)))
-                        : path.normalize(assetPath)
-                    ;
+                            ? path.normalize(path.join(options.output_assets, assetFolder, path.basename(assetPath)))
+                            : path.normalize(assetPath)
+                        ;
 
                     if (
                         (!IsExclude && !fileExists(newPath))
-                            ||
+                        ||
                         (!IsExclude && options.overwrite)
                     ) {
                         mkpath(path.dirname(newPath), function (err) {
@@ -72,7 +73,8 @@ module.exports = function (opt) {
 
                     }
 
-                    url = path.relative(options.output, newPath);
+                    url = path.relative(options.output_css, newPath);
+                    console.log(url);
                 }
 
                 return url;
