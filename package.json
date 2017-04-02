@@ -14,16 +14,21 @@
     "rework-plugin-url": "^1.1.0",
     "through2": "^0.6.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/eslint .",
+    "patch": "npm version patch && git push origin master --follow-tags && npm publish",
+    "minor": "npm version minor && git push origin master --follow-tags && npm publish",
+    "major": "npm version major && git push origin master --follow-tags && npm publish"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RobinCK/gulp-css-rebase.git"
   },
   "author": "Igor Ognichenko <ognichenko.igor@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/RobinCK/gulp-css-rebase/issues"
   },
