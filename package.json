@@ -1,6 +1,6 @@
 {
   "name": "gulp-css-rebase",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Rewrite url references in CSS and copyed CSS assets",
   "main": "index.js",
   "dependencies": {
