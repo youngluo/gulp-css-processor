@@ -28,10 +28,10 @@ gulp.task('default', () =>
 		.pipe(rebase({
 		    output_css: outputPath,
 		    output_assets: outputAssets,
-            exclude: [
-                'path/to/web/dir'
-            ],
-            overwrite: false
+        exclude: [
+            'path/to/web/dir'
+        ],
+        overwrite: false
 		}))
 		.pipe(gulp.dest(outputPath))
 );
