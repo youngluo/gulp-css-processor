@@ -2,6 +2,10 @@
   "env": {
     "node": true
   },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "extends": "eslint:recommended",
   "rules": {
     "indent": [
@@ -19,6 +23,8 @@
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "no-undef": "off",
+    "no-useless-escape": "off"
   }
 }

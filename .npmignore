@@ -1,6 +1,10 @@
 .editorconfig
 .gitignore
 .npmignore
-.eslintrc.json
+.eslintrc
 .idea/
 .git/
+dist/
+image/
+src/
+gulpfile.js

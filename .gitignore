@@ -1,2 +1,6 @@
 npm-debug.log
 node_modules/
+dist/
+image/
+src/
+gulpfile.js
