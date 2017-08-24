@@ -16,10 +16,7 @@ const processor = require('gulp-css-processor');
 
 gulp.task('default', () =>
 	gulp.src('src/*.css')
-		.pipe(processor({
-		    dest: 'dist',
-		    assets: 'assets'
-		}))
+		.pipe(processor())
 		.pipe(gulp.dest('dist'))
 );
 ```
@@ -28,3 +25,4 @@ gulp.task('default', () =>
 - `dest` - The target directory for the processed css file. Paths are rewritten relatively to that directory. Default 'dist'.
 - `assets` - The target directory for CSS assets. Default 'assets'.
 - `suffix` - The suffix of hash. Default 'v'.
+- `prefix` - The prefix of url in css files. Default ''.

@@ -12,6 +12,7 @@ const fileExists = require('file-exists');
 function processor(file, options) {
   let css = file.contents.toString();
   const hash = md5(css);
+  const { dest, assets, suffix, prefix } = options;
 
   return rework(css)
     .use(url(url => {
@@ -20,7 +21,7 @@ function processor(file, options) {
           .join(path.dirname(file.path), url)
           .replace(/[\#|\?].*$/, '');
 
-        const newPath = path.normalize(path.join(options.dest, options.assets, path.basename(assetPath)));
+        const newPath = path.normalize(path.join(dest, assets, path.basename(assetPath)));
 
         if (!fileExists(newPath)) {
           mkpath(path.dirname(newPath), function (err) {
@@ -34,7 +35,7 @@ function processor(file, options) {
           });
         }
 
-        url = `/${path.relative(options.dest, newPath).replace('\\', '/')}?${options.suffix}=${hash}`;
+        url = `${prefix}/${path.relative(dest, newPath).replace('\\', '/')}?${suffix}=${hash}`;
       }
 
       return url;
@@ -46,7 +47,8 @@ module.exports = function (opt) {
   const options = Object.assign({}, {
     dest: 'dist',
     assets: 'assets',
-    suffix: 'v'
+    suffix: 'v',
+    prefix: ''
   }, opt);
 
   return through.obj(function (file, enc, cb) {
