@@ -1,7 +1,6 @@
-<div style="text-center">
-<h1 style="text-center">gulp-css-processor</h1>
-<a href="https://badge.fury.io/js/gulp-css-processor"><img src="https://badge.fury.io/js/gulp-css-processor.svg" alt="npm version" height="18"></a>
-</div>
+# gulp-css-processor
+
+[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/gulp-css-processor)
 
 A [gulp](http://gulpjs.com/) plugin that allows rewriting url references in css files. And copy resource files to new locations automatically.
 
