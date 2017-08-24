@@ -1,6 +1,7 @@
 # gulp-css-processor
 
 [![npm](https://img.shields.io/npm/v/gulp-css-processor.svg)](https://www.npmjs.com/package/gulp-css-processor)
+[![npm](https://img.shields.io/npm/dm/gulp-css-processor.svg)](https://www.npmjs.com/package/gulp-css-processor)
 
 A [gulp](http://gulpjs.com/) plugin that allows rewriting url references in css files. And copy resource files to new locations automatically.
 
